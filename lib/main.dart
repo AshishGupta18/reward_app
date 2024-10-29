@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Reward Coins Application',
-        theme: appTheme,
+        theme: AppTheme.theme,
         routes: appRoutes,
       ),
     );
