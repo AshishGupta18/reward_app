@@ -1,30 +1,41 @@
-// // This is a basic Flutter widget test.
-// //
-// // To perform an interaction with a widget in your test, use the WidgetTester
-// // utility in the flutter_test package. For example, you can send tap and scroll
-// // gestures. You can also use WidgetTester to find child widgets in the widget
-// // tree, read text, and verify that the values of widget properties are correct.
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:reward_app/domain/use_cases/get_scratch_reward.dart';
+import 'package:reward_app/domain/use_cases/get_transaction_history.dart';
+import 'package:reward_app/domain/use_cases/redeem_reward.dart';
+import 'package:reward_app/main.dart';
+import 'package:reward_app/presentation/bloc/bloc/transaction_bloc.dart';
+import 'package:reward_app/presentation/bloc/coin_bloc/coin_bloc.dart';
+import 'package:reward_app/presentation/bloc/reward_bloc/reward_bloc.dart';
+import 'package:reward_app/data/repositories/reward_repository.dart'; // Adjust the import as necessary
+import 'package:reward_app/data/repositories/transaction_repository.dart'; // Adjust the import as necessary
+import 'package:reward_app/data/repositories/coin_repository.dart'; // Adjust the import as necessary
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
+void main() {
+  testWidgets('Home Screen shows correct initial coin balance', (WidgetTester tester) async {
+    // Create instances of your Repositories
+    final coinRepository = CoinRepository();
+    final rewardRepository = RewardRepository();
+    final transactionRepository = TransactionRepository();
 
-// import 'package:reward_app/main.dart';
+    // Create instances of your Blocs with the required repositories
+    final coinBloc = CoinBloc(); // Initialize with necessary parameters if needed
+    final rewardBloc = RewardBloc(GetScratchReward(rewardRepository), RedeemReward(rewardRepository));
+    final transactionBloc = TransactionBloc(GetTransactionHistory(transactionRepository));
 
-// void main() {
-//   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-//     // Build our app and trigger a frame.
-//     await tester.pumpWidget(const MyApp());
+    // Build the app with the required Blocs
+    await tester.pumpWidget(
+      MyApp(
+        coinBloc: coinBloc,
+        rewardBloc: rewardBloc,
+        transactionBloc: transactionBloc,
+      ),
+    );
 
-//     // Verify that our counter starts at 0.
-//     expect(find.text('0'), findsOneWidget);
-//     expect(find.text('1'), findsNothing);
+    // Verify initial UI state
+    expect(find.text('1000'), findsOneWidget); // Assuming initial balance is 1000
+    // Add more expectations for your UI elements
+  });
 
-//     // Tap the '+' icon and trigger a frame.
-//     await tester.tap(find.byIcon(Icons.add));
-//     await tester.pump();
-
-//     // Verify that our counter has incremented.
-//     expect(find.text('0'), findsNothing);
-//     expect(find.text('1'), findsOneWidget);
-//   });
-// }
+  // Additional widget tests can be added here
+}
