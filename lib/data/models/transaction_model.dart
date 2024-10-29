@@ -1,13 +1,9 @@
-class TransactionModel {
-  final String transactionId;
-  final String rewardName; // E.g., 'Scratch Card Reward' or 'Redeemed Item'
-  final int amount;
-   final DateTime date;
+// lib/models/transaction.dart
 
-  TransactionModel({
-    required this.transactionId,
-    required this.rewardName,
-    required this.amount,
-      required this.date,
-  });
+class TransactionModel {
+  final DateTime date;
+  final String type;
+  final int amount;
+
+  TransactionModel({required this.date, required this.type, required this.amount});
 }
