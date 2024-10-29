@@ -1,4 +1,3 @@
-part of 'coin_bloc.dart';
+abstract class CoinEvent {}
 
-@immutable
-sealed class CoinBlocEvent {}
+class LoadCoinBalance extends CoinEvent {}

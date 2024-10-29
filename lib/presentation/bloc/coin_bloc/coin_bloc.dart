@@ -1,13 +1,16 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'coin_event.dart';
+import 'coin_state.dart';
 
-part 'coin_event.dart';
-part 'coin_state.dart';
-
-class CoinBlocBloc extends Bloc<CoinBlocEvent, CoinBlocState> {
-  CoinBlocBloc() : super(CoinBlocInitial()) {
-    on<CoinBlocEvent>((event, emit) {
-      // TODO: implement event handler
+class CoinBloc extends Bloc<CoinEvent, CoinState> {
+  CoinBloc() : super(CoinLoading()) {
+    // Initialize with default coin balance
+    on<LoadCoinBalance>((event, emit) {
+      // Mock initial balance of 1000 coins
+      emit(CoinLoaded(balance: 1000));
     });
   }
+
+  // Method to reload or update balance if needed
+  void loadBalance() => add(LoadCoinBalance());
 }

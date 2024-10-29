@@ -1,6 +1,9 @@
-part of 'coin_bloc.dart';
+abstract class CoinState {}
 
-@immutable
-sealed class CoinBlocState {}
+class CoinLoading extends CoinState {}
 
-final class CoinBlocInitial extends CoinBlocState {}
+class CoinLoaded extends CoinState {
+  final int balance;
+
+  CoinLoaded({required this.balance});
+}
